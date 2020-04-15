@@ -261,48 +261,8 @@ describe("Constraints test", () => {
         const [is_valid, error] = nodes.UserTaskNode.validate(spec);
         expect(is_valid).toEqual(true);
       });
-    });
-
-    describe("channels_has_valid_type constraint works", () => {
-      test("fails with string", () => {
-        const spec = _.cloneDeep(nodes_.user_task);
-        spec.parameters.channels = "1";
-        
-        const [is_valid, error] = nodes.UserTaskNode.validate(spec);
-
-        expect(is_valid).toEqual(false);
-        expect(error).toEqual("channels_has_valid_type");
-      });
-
-      test("fails with null", () => {
-        const spec = _.cloneDeep(nodes_.user_task);
-        spec.parameters.channels = null;
-        
-        const [is_valid, error] = nodes.UserTaskNode.validate(spec);
-
-        expect(is_valid).toEqual(false);
-        expect(error).toEqual("channels_has_valid_type");
-      });
-
-      test("valid with undefined", () => {
-        const spec = _.cloneDeep(nodes_.user_task);
-        spec.parameters.channels = undefined;
-        
-        const [is_valid, error] = nodes.UserTaskNode.validate(spec);
-
-        expect(is_valid).toEqual(true);
-      });
-
-      test("valid with array", () => {
-        const spec = _.cloneDeep(nodes_.user_task);
-        spec.parameters.channels = [];
-        
-        const [is_valid, error] = nodes.UserTaskNode.validate(spec);
-
-        expect(is_valid).toEqual(true);
-      });
-    });
-  });
+    })
+  })
 
   describe("ScriptTaskNode", () => {
     test("ScriptTaskNode parameters_has_script constraint works", () => {
@@ -670,20 +630,6 @@ describe("UserTaskNode", () => {
     const result = await node.run({ bag, input, actor_data });
     expect(result.activity_manager).toBeDefined();
     expect(result.activity_manager.parameters).toEqual({ timeout: 10 });
-  });
-
-  test("Creates activity manager with parameter timeout", async () => {
-    const node_spec = _.cloneDeep(nodes_.user_task);
-    node_spec.parameters.channels = ["1"];
-
-    const node = new nodes.UserTaskNode(node_spec);
-
-    const bag = { identity_user_data: "example_bag_data" };
-    const input = { identity_user_data: "example_input_data" };
-    const actor_data = {};
-    const result = await node.run({ bag, input, actor_data });
-    expect(result.activity_manager).toBeDefined();
-    expect(result.activity_manager.parameters).toEqual({ channels: ["1"] });
   });
 
   test("Can reference actor_data on input", async () => {

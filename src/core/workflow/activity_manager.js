@@ -58,10 +58,7 @@ class ActivityManager extends PersistedEntity {
       const lane_id = blueprint.nodes.filter((node) => node.id === node_id)[0].lane_id;
       const current_lane_spec = blueprint.lanes.filter((lane) => lane.id === lane_id)[0];
       const lisp = await Packages._fetchPackages(blueprint.requirements, blueprint.prepare);
-      let is_allowed = Lane.runRule(current_lane_spec, actor_data, activity_data.bag, lisp);
-      if (is_allowed && activity_data.parameters.channels && activity_data.parameters.channels instanceof Array) {
-        is_allowed = activity_data.parameters.channels.indexOf(actor_data.channel) !== -1;
-      }
+      const is_allowed = Lane.runRule(current_lane_spec, actor_data, activity_data.bag, lisp);
       if (is_allowed) {
         allowed_activities.push(activity_data);
       }

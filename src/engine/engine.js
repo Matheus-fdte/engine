@@ -52,20 +52,20 @@ class Engine {
 
   async fetchAvailableActivitiesForActor(actor_data, filters = null) {
     return await ActivityManager.fetchActivitiesForActorFromStatus(ActivityStatus.STARTED,
-                                                                 actor_data,
-                                                                 filters);
+      actor_data,
+      filters);
   }
 
   async fetchDoneActivitiesForActor(actor_data, filters = null) {
     return await ActivityManager.fetchActivitiesForActorFromStatus(ActivityStatus.COMPLETED,
-                                                                 actor_data,
-                                                                 filters);
+      actor_data,
+      filters);
   }
 
   async fetchAvailableActivityForProcess(process_id, actor_data) {
     return await ActivityManager.fetchActivityForProcess(process_id,
-                                                         actor_data,
-                                                         ActivityStatus.STARTED);
+      actor_data,
+      ActivityStatus.STARTED);
   }
 
   async fetchActivityManager(activity_manager_id, actor_data) {
@@ -82,21 +82,21 @@ class Engine {
       const activity_manager = await ActivityManager.fetchActivityManagerFromProcessId(process_id, actor_data, ActivityStatus.STARTED);
       return await activity_manager.commitActivity(process_id, actor_data, external_input);
     } catch (err) {
-      return {error: err};
+      return { error: err };
     }
   }
 
   async pushActivity(process_id, actor_data) {
-    try{
+    try {
       const activity_manager = await ActivityManager.fetchActivityManagerFromProcessId(process_id, actor_data, ActivityStatus.STARTED);
       const [is_completed, payload] = await activity_manager.pushActivity(process_id);
-      if(is_completed) {
+      if (is_completed) {
         const process = await Process.fetch(process_id);
-        return await process.run(actor_data, {activities: payload});
+        return await process.run(actor_data, { activities: payload });
       }
       return undefined;
     } catch (err) {
-      return {error: err};
+      return { error: err };
     }
   }
 
@@ -137,7 +137,7 @@ class Engine {
     return undefined;
   }
 
-  async runProcess(process_id, actor_data, external_input)  {
+  async runProcess(process_id, actor_data, external_input) {
     return process_manager.runProcess(process_id, actor_data, external_input);
   }
 
@@ -179,6 +179,10 @@ class Engine {
 
   async fetchWorkflow(workflow_id) {
     return await Workflow.fetch(workflow_id);
+  }
+
+  async fetchWorkflows(...workflow_ids) {
+    return await Workflow.fetch(workflow_ids);
   }
 
   async deleteWorkflow(workflow_id) {

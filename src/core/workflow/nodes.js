@@ -263,8 +263,7 @@ class UserTaskNode extends ParameterizedNode {
   static get rules() {
     const parameters_rules = {
       "parameters_has_action": [obju.hasField, "action"],
-      "timeout_has_valid_type": [obju.isFieldTypeIn, "timeout", ["undefined", "number"]],
-      "channels_has_valid_type": [(obj, field) => obj[field] === undefined || obj[field] instanceof Array, "channels"]
+      "timeout_has_valid_type": [obju.isFieldTypeIn, "timeout", ["undefined", "number"]]
     };
     return {
       ...super.rules,
@@ -290,9 +289,6 @@ class UserTaskNode extends ParameterizedNode {
         activity_manager.parameters = {};
         if (this._spec.parameters.timeout) {
           activity_manager.parameters.timeout = this._spec.parameters.timeout;
-        }
-        if (this._spec.parameters.channels) {
-          activity_manager.parameters.channels = this._spec.parameters.channels;
         }
         let next_node_id = this.id;
         let status = ProcessStatus.WAITING;
