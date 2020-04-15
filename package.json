@@ -31,6 +31,7 @@
     "test-memory": "jest --coverage",
     "db": "knex",
     "tests": "export test_persist_option='knex' && npm -- test -i",
+    "tests:watch": "export test_persist_option='knex' NODE_ENV='docker' && npm -- test -i --watchAll",
     "tests-memory": "export test_persist_option='memory' && npm run test-memory -i",
     "seeds": "knex --env ${NODE_ENV} --knexfile knexfile.js seed:run",
     "migrations": "knex --env ${NODE_ENV} --knexfile knexfile.js migrate:latest",
